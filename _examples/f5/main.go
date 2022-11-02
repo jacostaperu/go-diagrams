@@ -6,7 +6,6 @@ import (
 
 	"github.com/blushft/go-diagrams/diagram"
 	"github.com/blushft/go-diagrams/nodes/f5bigip"
-	"github.com/blushft/go-diagrams/nodes/gcp"
 	"github.com/blushft/go-diagrams/nodes/generic"
 )
 
@@ -36,20 +35,22 @@ func main() {
 	//dns := gcp.Network.Dns(diagram.NodeLabel("DNS"))
 	lb := f5bigip.F5.BigIp(diagram.NodeLabel("f5 slough"))
 	d.Add(lb)
-	radius1 := generic.Os.Centos(diagram.NodeLabel("Cache"))
-	radius2 := gcp.Database.Sql(diagram.NodeLabel("Database"))
-	radius3 := gcp.Database.Memorystore(diagram.NodeLabel("Cache"))
-	radius4 := gcp.Database.Sql(diagram.NodeLabel("Database"))
+	radius1 := generic.Daemon.FreeRadius(diagram.NodeLabel("radius1"))
+	radius2 := generic.Daemon.FreeRadius(diagram.NodeLabel("radius2"))
+	radius3 := generic.Daemon.FreeRadius(diagram.NodeLabel("radius3"))
+	radius4 := generic.Daemon.FreeRadius(diagram.NodeLabel("radius4"))
 
 	dc := diagram.NewGroup("GCP", Color("red"), URL("ddsd"))
 	dc.NewGroup("services", Color("red")).
 		Label("Service Layer").
 		Add(
 			radius1,
-			gcp.Compute.ComputeEngine(diagram.NodeLabel("Server 1")),
-			gcp.Compute.ComputeEngine(diagram.NodeLabel("Server 2")),
-		).
-		ConnectAllFrom(lb.ID(), diagram.Forward())
+			radius2,
+			radius3,
+			radius4,
+		)
+		//.
+		//ConnectAllFrom(lb.ID(), diagram.Forward())
 		//.ConnectAllTo(cache.ID(), diagram.Forward())
 
 	dc.NewGroup("ESX1").Label("ESX1").Add(radius1, radius2).
