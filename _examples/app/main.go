@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/blushft/go-diagrams/diagram"
+	"github.com/blushft/go-diagrams/nodes/f5bigip"
 	"github.com/blushft/go-diagrams/nodes/gcp"
 )
 
@@ -25,6 +26,7 @@ func main() {
 			gcp.Compute.ComputeEngine(diagram.NodeLabel("Server 1")),
 			gcp.Compute.ComputeEngine(diagram.NodeLabel("Server 2")),
 			gcp.Compute.ComputeEngine(diagram.NodeLabel("Server 3")),
+			f5bigip.F5.BigIp(diagram.NodeLabel("f5 slough")),
 		).
 		ConnectAllFrom(lb.ID(), diagram.Forward()).
 		ConnectAllTo(cache.ID(), diagram.Forward())

@@ -40,7 +40,11 @@ func main() {
 		ConnectAllFrom(lb.ID()),
 	)
 
-	if err := d.Render(); err != nil {
-		log.Fatal(err)
+	dot_as_string, err := d.RenderString()
+
+	if err != nil {
+		fmt.Printf("%+v\n", err)
 	}
+	fmt.Println(dot_as_string)
+
 }

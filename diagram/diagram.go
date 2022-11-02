@@ -83,36 +83,49 @@ func (d *Diagram) Close() error {
 }
 
 func (d *Diagram) Render() error {
-	return d.render()
+	_, err := d.render("file")
+	return err
 }
 
-func (d *Diagram) render() error {
+func (d *Diagram) RenderString() (string, error) {
+	stream, err := d.render("string")
+	return stream, err
+}
+
+func (d *Diagram) render(out string) (string, error) {
 	outdir := d.options.Name
-	if err := os.Mkdir(outdir, os.ModePerm); err != nil {
-		return err
+	if out == "file" {
+
+		if err := os.Mkdir(outdir, os.ModePerm); err != nil {
+			return "", err
+		}
 	}
 
 	for _, n := range d.root.nodes {
 		err := n.render("root", outdir, d.g)
 		if err != nil {
-			return err
+			return "", err
 		}
 	}
 
 	for _, e := range d.root.edges {
 		err := e.render(e.Start(), e.End(), d.g)
 		if err != nil {
-			return err
+			return "", err
 		}
 	}
 
 	for _, g := range d.root.children {
 		if err := g.render(outdir, d.g); err != nil {
-			return err
+			return "", err
 		}
 	}
+	if out == "string" {
+		return d.renderString(), nil
 
-	return d.renderOutput()
+	} else {
+		return "", d.renderOutput()
+	}
 }
 
 func (d *Diagram) renderOutput() error {
@@ -128,4 +141,8 @@ func (d *Diagram) saveDot() error {
 	fname := filepath.Join(d.options.Name, d.options.FileName+".dot")
 
 	return ioutil.WriteFile(fname, []byte(d.g.String()), os.ModePerm)
+}
+
+func (d *Diagram) renderString() string {
+	return d.g.String()
 }
