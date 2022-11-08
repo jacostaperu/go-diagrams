@@ -51,7 +51,7 @@ Into this:
 ## Usage
 
 ```sh
-go get github.com/blushft/go-diagrams
+go get github.com/jacostaperu/go-diagrams
 ```
 
 Create a diagram:

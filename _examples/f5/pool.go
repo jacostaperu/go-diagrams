@@ -20,7 +20,7 @@ type Member struct {
 }
 
 // function to load json file and parse all pools
-func loadJsonPools(filename string) ([]Pool, error) {
+func LoadJsonPools(filename string) ([]Pool, error) {
 	var pools []Pool
 	//read file at once
 	body, err := ReadFile(filename)

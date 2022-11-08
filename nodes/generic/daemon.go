@@ -1,6 +1,6 @@
 package generic
 
-import "github.com/blushft/go-diagrams/diagram"
+import "github.com/jacostaperu/go-diagrams/diagram"
 
 type daemonContainer struct {
 	path string

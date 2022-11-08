@@ -3,9 +3,9 @@ package main
 import (
 	"log"
 
-	"github.com/blushft/go-diagrams/diagram"
-	"github.com/blushft/go-diagrams/nodes/f5bigip"
-	"github.com/blushft/go-diagrams/nodes/gcp"
+	"github.com/jacostaperu/go-diagrams/diagram"
+	"github.com/jacostaperu/go-diagrams/nodes/f5bigip"
+	"github.com/jacostaperu/go-diagrams/nodes/gcp"
 )
 
 func main() {

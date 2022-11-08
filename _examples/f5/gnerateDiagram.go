@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/blushft/go-diagrams/diagram"
-	"github.com/blushft/go-diagrams/nodes/f5bigip"
-	"github.com/blushft/go-diagrams/nodes/generic"
+	"github.com/jacostaperu/go-diagrams/diagram"
+	"github.com/jacostaperu/go-diagrams/nodes/f5bigip"
+	"github.com/jacostaperu/go-diagrams/nodes/generic"
 )
 
 func URL(c string) diagram.GroupOption {

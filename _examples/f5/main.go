@@ -1,8 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func main() {
 	fmt.Println("Hello World")
-	loadJsonPools()
+	LoadJsonPools("10.17.193.149_pool.json")
 }

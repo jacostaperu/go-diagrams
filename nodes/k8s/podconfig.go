@@ -1,6 +1,6 @@
 package k8s
 
-import "github.com/blushft/go-diagrams/diagram"
+import "github.com/jacostaperu/go-diagrams/diagram"
 
 type podconfigContainer struct {
 	path string
