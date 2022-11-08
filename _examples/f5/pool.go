@@ -20,12 +20,24 @@ type Member struct {
 }
 
 // function to load json file and parse all pools
-func loadJsonPools(firename string) ([]Pool, error) {
+func loadJsonPools(filename string) ([]Pool, error) {
 	var pools []Pool
 	//read file at once
 	body, err := ReadFile(filename)
 	//process json
-	query, err := gojq.Parse(`.list.form.fields[] | .data[]`)
+
+	//falta poner aqui la query que transforma en el formato requerido
+	// revisar el getPool.sh para obtener la query
+	stringQuery := `to_entries[] | .["pool"]=.key  |
+        .["description"]=.value.description | .["members"]=[
+            .value.members | to_entries[]|
+             .["name"]=.key|
+             .["address"]=.value.address|
+             .["state"]=.value.state|
+             del(.key,.value)
+            ] |
+        del(.key,.value)`
+	query, err := gojq.Parse(stringQuery)
 	if err != nil {
 		return nil, err
 	}
@@ -34,7 +46,21 @@ func loadJsonPools(firename string) ([]Pool, error) {
 
 	iter := query.Run(input) // or query.RunWithContext
 
-	return pools, nil
+	jsonPools, err := iter2slice2(iter)
+	if err != nil {
+		return nil, err
+	}
+
+	//body, err = json.Marshal(nodes)
+	var pools []Pool
+	mbytes, err := json.Marshal(jsonPools)
+	if err != nil {
+		return nil, err
+	}
+	json.Unmarshal(mbytes, &pools)
+
+	return pool, err
+
 }
 
 func isNilFixed(i interface{}) bool {
