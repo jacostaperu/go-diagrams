@@ -3,6 +3,7 @@ package diagram
 import (
 	"errors"
 	"io/ioutil"
+	"log"
 	"os"
 	"path/filepath"
 
@@ -97,7 +98,8 @@ func (d *Diagram) render(out string) (string, error) {
 	if out == "file" {
 
 		if err := os.Mkdir(outdir, os.ModePerm); err != nil {
-			return "", err
+			log.Printf("outdir %s already exist, skipping creation\n", d.options.Name)
+
 		}
 	}
 
